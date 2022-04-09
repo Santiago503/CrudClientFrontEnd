@@ -26,7 +26,7 @@ export class DialogService {
     dialogConfig.panelClass = 'custom-dialog-container';
 
     dialogConfig.minHeight = "350Px";
-    dialogConfig.minWidth  = "300px";
+    dialogConfig.minWidth  = "400px";
 
 
     if(position == 'right') {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from './../../service/dialog/dialog.service';
+import { FormControlClientComponent } from './../client/form-control-client/form-control-client.component';
 
 @Component({
   selector: 'app-home',
@@ -14,6 +15,7 @@ export class HomeComponent implements OnInit {
   }
 
   create(event: any) {
+      this.dialogServ.onCreateDialog(FormControlClientComponent, '100', '50', true, null, false, true, '900px', 'right');
   }
 
 }

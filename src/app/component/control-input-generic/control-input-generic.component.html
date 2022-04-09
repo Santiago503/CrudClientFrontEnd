@@ -1,0 +1,202 @@
+<!-- template con Inputs -->
+<ng-template #templateInputs let-input let-index="idx">
+  <div [formGroup]="formGroup" >
+      <div >
+              <!-- Input normal -->
+              <div *ngIf="input?.typeInput == 'normal'">
+                  <div *ngIf="input?.label">
+                      <label  class="text-capitalize">{{ input?.label }}</label>
+                      <br>
+                  </div>
+                  <input
+                      [type]="input?.type"
+                      [formControlName]="input?.formControlName"
+                      [readonly]="input?.readonly"
+                      (change)="getChange(input, $event)" >
+              </div>
+
+              <!-- MatInput withOut UpperCase -->
+              <div   *ngIf="input.typeInput == 'matInput' && !notPermit.includes(input.type) && !input?.onlyUpperCase">
+                  <mat-form-field [appearance]="input.appearance" class="w-100" >
+                      <mat-label *ngIf="input.label" class="text-capitalize">{{ input.label }}</mat-label>
+
+                      <input
+                          [type]="input.type"
+                          #field
+                          matInput
+                          [required]="input?.required"
+                          [formControlName]="input?.formControlName"
+                          [readonly]="input?.readonly"
+                          (keydown)="getKeydown(input, $event)"
+                          (change)="getChange(input, $event)" >
+
+                      <mat-hint align="end" *ngIf="input?.maxLength">
+                          {{field?.value?.length || 0}}/{{ input?.maxLength || 0 }}
+                      </mat-hint>
+
+                  </mat-form-field>
+              </div>
+
+              <!-- MatInput with UpperCase -->
+              <div  *ngIf="input.typeInput == 'matInput' && !notPermit.includes(input.type) && input?.onlyUpperCase">
+                  <mat-form-field [appearance]="input.appearance" class="w-100" >
+                      <mat-label *ngIf="input.label" class="text-capitalize">{{ input.label }}</mat-label>
+
+                      <input
+                          [type]="input.type"
+                          #field
+                          matInput
+                          [required]="input?.required"
+                          [formControlName]="input?.formControlName"
+                          [readonly]="input?.readonly"
+                          (change)="getChange(input, $event)"
+                          (keydown)="getKeydown(input, $event)"
+                          oninput="this.value = this.value.toUpperCase()">
+
+                      <mat-hint align="end" *ngIf="input?.maxLength">
+                          {{field?.value?.length || 0}}/{{ input?.maxLength || 0 }}
+                      </mat-hint>
+                  </mat-form-field>
+              </div>
+
+              <div  *ngIf="input.typeInput == 'matInput' && input.type == 'textarea'">
+                  <mat-form-field appearance="outline" class="w-100" >
+                      <mat-label *ngIf="input.label" class="text-capitalize">{{ input.label }}</mat-label>
+                      <textarea
+                          matInput
+                          #fieldTextarea
+                          [required]="input?.required"
+                          [formControlName]="input?.formControlName"
+                          [readonly]="input?.readonly"
+                          (change)="getChange(input, $event)"
+                          (keydown)="getKeydown(input, $event)"
+                          [rows]="input?.rows"
+                          oninput="this.value = this.value.toUpperCase()">
+                      </textarea>
+                      <mat-hint align="end" *ngIf="input?.maxLength">
+                          {{fieldTextarea?.value?.length || 0}}/{{ input?.maxLength || 0 }}
+                      </mat-hint>
+                  </mat-form-field>
+              </div>
+
+              <!-- MatSelect -->
+              <div  *ngIf="input.typeInput == 'matInput' && input.type == 'select'  && input.typeData != 'Complete'">
+                  <mat-form-field [appearance]="input.appearance"  class="w-100">
+
+                          <mat-label *ngIf="input.label" class="text-capitalize">{{ input.label }}</mat-label>
+
+                          <mat-select [required]="input?.required" [formControlName]="input.formControlName" (selectionChange)="getChange(input, $event)">
+                              <mat-option value="">-- Seleccionar --</mat-option>
+                              <mat-option *ngFor="let T of input.data" [(value)]="T.id">{{ T.name }}</mat-option>
+                          </mat-select>
+
+                  </mat-form-field>
+              </div>
+
+              <!-- NgSelect Multi -->
+              <div  *ngIf="input.typeInput == 'matInput' && input.type == 'ngselectMulti'">
+                  <ng-select
+                      class="w-100 required"
+                      [appearance]="input.appearance"
+                      [multiple]="true"
+                      [items]="input.data"
+                      [formControlName]="input.formControlName"
+                      [name]="input.formControlName"
+                      bindLabel="name"
+                      bindValue="id"
+                      [placeholder]="input.label"
+                      (search)="getChange(input, $event)"
+                      required
+                      [readonly]="input?.readonly">
+                  </ng-select>
+              </div>
+
+              <!-- Radio -->
+              <div *ngIf="input.typeInput == 'matInput' && input.type == 'radio'">
+                  <label *ngIf="input.label" class="text-capitalize">{{ input.label }}</label><br>
+                  <mat-radio-group [required]="input?.required" [formControlName]="input?.formControlName">
+                      <mat-radio-button *ngFor="let s of input.data" [(value)]="s.id">{{ s.name }}</mat-radio-button>
+                  </mat-radio-group>
+              </div>
+
+              <div *ngIf="input.typeInput == 'matInput' && input.type == 'matSlideToggle'">
+                  <mat-slide-toggle [color]="input?.color" [required]="input?.required" [formControlName]="input?.formControlName">{{ input.label }}</mat-slide-toggle>
+              </div>
+
+      </div>
+  </div>
+</ng-template>
+
+
+<div  autocomplete="off"  class="pr" >
+
+  <div  [className]="classMain" *ngIf="inputGeneric">
+      <div *ngFor="let input of inputGeneric; let i = index;" [className]="input?.class" >
+          <ng-container
+              *ngTemplateOutlet="templateInputs; context:{ $implicit: input, idx: i }"
+          ></ng-container>
+      </div>
+  </div>
+
+  <!-- Para Array -->
+  <div *ngIf="formArrayName" [formGroup]="formGroup">
+      <div *ngIf="this.control">
+          <div
+            [formArrayName]="formArrayName"
+            *ngFor="let item of this.control.controls; let ix = index">
+            <div  [className]="classMain"  class="pr" >
+              <div *ngFor="let input of inputGenericDataArray;  let ia = index;" [className]="input?.class" [formGroupName]="ix">
+                  <div>
+                          <!-- Input normal -->
+                      <div *ngIf="input?.typeInput == 'normal'">
+                          <label *ngIf="input?.label" class="text-capitalize">{{ input?.label }}</label>
+                          <input [type]="input?.type" [formControlName]="input?.formControlName"  [readonly]="input?.readonly">
+                      </div>
+
+                      <!-- MatInput withOut UpperCase -->
+                      <div   *ngIf="input.typeInput == 'matInput' && input.type != 'select' && input.type != 'ngselectMulti' && input.type != 'radio' && input.type != 'ngselect' && !input?.onlyUpperCase">
+                          <mat-form-field [appearance]="input.appearance" class="w-100" >
+                              <mat-label *ngIf="input.label" class="text-capitalize">{{ input.label }}</mat-label>
+
+                              <input
+                                  [type]="input.type"
+                                  #field
+                                  matInput
+                                  [required]="input?.required"
+                                  [formControlName]="input?.formControlName"
+                                  [readonly]="input?.readonly"
+                                  (change)="getChange(input, $event)" >
+
+                              <mat-hint align="end" *ngIf="input?.maxLength">
+                                  {{field?.value?.length || 0}}/{{ input?.maxLength || 0 }}
+                              </mat-hint>
+
+                          </mat-form-field>
+                      </div>
+
+                      <!-- NgSelect Multi -->
+                      <div  *ngIf="input.typeInput == 'matInput' && input.type == 'ngselectMulti'">
+                          <ng-select
+                              class="w-100 required"
+                              bindLabel="name"
+                              bindValue="id"
+                              required
+                              [appearance]="input.appearance"
+                              [multiple]="true"
+                              [items]="input.data"
+                              [name]="input.formControlName"
+                              [placeholder]="input.label"
+                              [formControlName]="input.formControlName"
+                              (search)="getChange(input, $event)"
+                              [readonly]="input?.readonly">
+                          </ng-select>
+                      </div>
+
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  </div>
+</div>
+

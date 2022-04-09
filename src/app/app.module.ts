@@ -17,7 +17,6 @@ import { ToastrModule } from 'ngx-toastr';
   ],
   imports: [
     BrowserModule,
-    ToastrModule.forRoot(),
     PageModule,
     AppRoutingModule,
     ComponentModule,
