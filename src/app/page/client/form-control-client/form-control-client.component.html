@@ -14,6 +14,10 @@
   </div>
 </form>
 
+  <button type="button" class="btn btn-primary btn-sm mt-1 mb-1" (click)="addItem()">
+    <mat-icon>add</mat-icon>
+  </button>
+
   <!-- formArrayName -->
   <form [formGroup]="this.FormBuilder" autocomplete="off">
           <div body>
@@ -29,12 +33,14 @@
   </form>
 
   <!-- button save -->
-  <app-button-save
-          class="btn btn-primary "
-          [enable]="matDialogData?.formEnableOrdisable"
-          [name]="this.FormBuilder.value.id == 0 ? 'Save': 'Edit'"
-          (saveEvent)="save()">
-  </app-button-save>
+  <div class="float-right text-right">
+    <app-button-save
+            [enable]="matDialogData?.formEnableOrdisable"
+            [name]="this.FormBuilder.value.id == 0 ? 'Save': 'Edit'"
+            (saveEvent)="save()">
+    </app-button-save>
+
+  </div>
 
 
 </div>

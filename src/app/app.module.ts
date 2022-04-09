@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { HttpClientModule } from '@angular/common/http';
+import {MatButtonModule} from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -32,6 +33,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatRadioModule,
     MatSelectModule,
     MatDialogModule,
+    MatButtonModule,
     HttpClientModule,
     ReactiveFormsModule,
 
