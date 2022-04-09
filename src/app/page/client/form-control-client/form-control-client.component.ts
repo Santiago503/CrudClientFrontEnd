@@ -1,21 +1,24 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { AfterViewChecked, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { InputGeneric } from 'src/app/component/control-input-generic/model/InputGeneric';
 import { EmailValidator, NameValidator } from 'src/app/helper/validate';
 import { AlertService } from 'src/app/service/alert/alert.service';
 import { DialogService } from 'src/app/service/dialog/dialog.service';
 import { HttpRequestService } from 'src/app/service/httpRequest/http-request.service';
-import { inputGenericDataClient } from './InputforGenererClient';
-
+import { inputGenericDataClient } from './InputGenerer/InputforGenererClient';
+import { inputGenericDataClientAddress } from './InputGenerer/InputforGenererClientAddress';
 @Component({
   selector: 'app-form-control-client',
   templateUrl: './form-control-client.component.html',
   styleUrls: ['./form-control-client.component.css']
 })
-export class FormControlClientComponent implements OnInit {
-  clientTitle = "Create Client"
+export class FormControlClientComponent implements OnInit, AfterViewChecked {
+
+
+  clientTitle = "Create Client1"
   inputGenericData: InputGeneric[] = inputGenericDataClient;
+  inputGenericDataClientAddress: InputGeneric[] = inputGenericDataClientAddress;
   listGender = [{name: 'Male', id: 'M' }, {name: 'Female', id: 'F' }];
   listStatus = [{name: 'Active', id: 'A' }, {name: 'Inactive', id: 'I' }];
 
@@ -23,7 +26,7 @@ export class FormControlClientComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public matDialogData: any,
               private dialog: DialogService,
               private alert: AlertService,
-              private reqServ: HttpRequestService) {
+              private reqServ: HttpRequestService,private readonly changeDetectorRef: ChangeDetectorRef) {
 
                 // matDialogData?.data ? this.FormBuilder.patchValue( matDialogData?.data ) : null;
                 // matDialogData?.formEnableOrdisable ? this.FormBuilder.enable() : this.FormBuilder.disable();
@@ -32,7 +35,10 @@ export class FormControlClientComponent implements OnInit {
 
   ngOnInit() {
     this.setDataInputs()
+  }
 
+  ngAfterViewChecked(): void {
+    this.changeDetectorRef.detectChanges();
   }
 
   setDataInputs() {
@@ -46,9 +52,27 @@ export class FormControlClientComponent implements OnInit {
     ,lastname           :['', [Validators.required, Validators.maxLength(50), NameValidator]]
     ,gender             :['', Validators.required]
     ,email              :['', [Validators.required, EmailValidator]]
-    ,statusId           :[1,  Validators.required]
+    ,statusId           :['M',  Validators.required]
     ,telefono           :['']
+    ,address            :this.fb.array([this.createAddress()])
   });
+
+  createAddress(address:any = null) {
+    return this.fb.group({
+       clientId           :['']
+      ,country            :['']
+      ,city               :['']
+      ,address            :['']
+    });
+  }
+
+  get getAddres() {
+    return this.FormBuilder.get("address") as FormArray;
+  }
+
+  addItem(address:any): void {
+    this.getAddres.push(this.createAddress(address));
+  }
 
   validateForm(): boolean{
     return true;
@@ -59,9 +83,11 @@ export class FormControlClientComponent implements OnInit {
     var valid = this.validateForm();
     if(!valid) { return; }
 
+    return;
+
     let req = this.FormBuilder.value.id == 0
-              ? this.reqServ.postRequest('almacen', this.FormBuilder.value)
-              : this.reqServ.putRequest('almacen', this.FormBuilder.value);
+              ? this.reqServ.postRequest('', this.FormBuilder.value)
+              : this.reqServ.putRequest('', this.FormBuilder.value);
 
      req
     .subscribe(

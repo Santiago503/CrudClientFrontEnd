@@ -1,11 +1,10 @@
 
-<div class="d-flex flex-column justify-content-between">
+<div class="d-flex flex-column justify-content-between" *ngIf="this.FormBuilder">
 <!-- Title -->
 <app-title [title]="clientTitle"></app-title>
 
 <form  [formGroup]="this.FormBuilder" autocomplete="off">
-
-  <div class="m-3">
+  <div>
     <!-- Components Inputs -->
       <app-control-input-generic
           [formGroup]="this.FormBuilder"
@@ -13,14 +12,29 @@
           [inputGeneric]="inputGenericData">
       </app-control-input-generic>
   </div>
+</form>
+
+  <!-- formArrayName -->
+  <form [formGroup]="this.FormBuilder" autocomplete="off">
+          <div body>
+            <app-control-input-generic
+              [formGroup]="FormBuilder"
+              [classMain]="'row'"
+              [subTitleformArrayName]="'Address'"
+              [inputGenericDataArray]="inputGenericDataClientAddress"
+              [formArrayName]="'address'"
+              [control]="this.getAddres" >
+            </app-control-input-generic>
+          </div>
+  </form>
 
   <!-- button save -->
   <app-button-save
+          class="btn btn-primary "
           [enable]="matDialogData?.formEnableOrdisable"
           [name]="this.FormBuilder.value.id == 0 ? 'Save': 'Edit'"
           (saveEvent)="save()">
   </app-button-save>
 
-</form>
 
 </div>

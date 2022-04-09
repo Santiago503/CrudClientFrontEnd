@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit {
   }
 
   create(event: any) {
-      this.dialogServ.onCreateDialog(FormControlClientComponent, '100', '50', true, null, false, true, '900px', 'right');
+      this.dialogServ.onCreateDialog(FormControlClientComponent, '100', '60', true, null, false, true, '900px', 'right');
   }
 
 }

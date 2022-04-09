@@ -139,12 +139,13 @@
   </div>
 
   <!-- Para Array -->
-  <div *ngIf="formArrayName" [formGroup]="formGroup">
-      <div *ngIf="this.control">
+  <div *ngIf="formArrayName" [formGroup]="formGroup" >
+      <div *ngIf="this.control.controls && this.inputGenericDataArray">
           <div
             [formArrayName]="formArrayName"
             *ngFor="let item of this.control.controls; let ix = index">
-            <div  [className]="classMain"  class="pr" >
+            <p *ngIf="subTitleformArrayName">{{subTitleformArrayName}} : {{ix + 1}}</p>
+            <div  [className]="classMain"  class="pr rounded-pill" >
               <div *ngFor="let input of inputGenericDataArray;  let ia = index;" [className]="input?.class" [formGroupName]="ix">
                   <div>
                           <!-- Input normal -->
@@ -172,24 +173,6 @@
                               </mat-hint>
 
                           </mat-form-field>
-                      </div>
-
-                      <!-- NgSelect Multi -->
-                      <div  *ngIf="input.typeInput == 'matInput' && input.type == 'ngselectMulti'">
-                          <ng-select
-                              class="w-100 required"
-                              bindLabel="name"
-                              bindValue="id"
-                              required
-                              [appearance]="input.appearance"
-                              [multiple]="true"
-                              [items]="input.data"
-                              [name]="input.formControlName"
-                              [placeholder]="input.label"
-                              [formControlName]="input.formControlName"
-                              (search)="getChange(input, $event)"
-                              [readonly]="input?.readonly">
-                          </ng-select>
                       </div>
 
                   </div>

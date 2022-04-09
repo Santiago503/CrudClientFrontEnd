@@ -26,6 +26,7 @@ export class ControlInputGenericComponent implements OnInit {
 
 
   @Input() classMain: string;
+  @Input() subTitleformArrayName: string;
 
   @Output() change = new EventEmitter<any>();
 
