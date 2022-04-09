@@ -1,1 +1,5 @@
-<p>button-save works!</p>
+<div  *ngIf="enable">
+  <button type="button"  [className]="class" (click)="save()">
+      {{ name }}
+  </button>
+</div>

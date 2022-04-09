@@ -1,3 +1,26 @@
-<app-title
-  [title]="clientTitle">
-</app-title>
+
+<div class="d-flex flex-column justify-content-between">
+<!-- Title -->
+<app-title [title]="clientTitle"></app-title>
+
+<form  [formGroup]="this.FormBuilder" autocomplete="off">
+
+  <div class="m-3">
+    <!-- Components Inputs -->
+      <app-control-input-generic
+          [formGroup]="this.FormBuilder"
+          [classMain]="'row'"
+          [inputGeneric]="inputGenericData">
+      </app-control-input-generic>
+  </div>
+
+  <!-- button save -->
+  <app-button-save
+          [enable]="matDialogData?.formEnableOrdisable"
+          [name]="this.FormBuilder.value.id == 0 ? 'Save': 'Edit'"
+          (saveEvent)="save()">
+  </app-button-save>
+
+</form>
+
+</div>

@@ -6,6 +6,8 @@ import { HomeComponent } from './home/home.component';
 import { ComponentModule } from '../component/component.module';
 import { ClientComponent } from './client/client.component';
 import { FormControlClientComponent } from './client/form-control-client/form-control-client.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -13,7 +15,10 @@ import { FormControlClientComponent } from './client/form-control-client/form-co
   imports: [
     CommonModule,
     PageRoutingModule,
-    ComponentModule
+    ComponentModule,
+    ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule
   ],
   schemas:[CUSTOM_ELEMENTS_SCHEMA]
 

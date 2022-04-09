@@ -9,15 +9,23 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { TitleComponent } from './title/title.component';
 import { ControlInputGenericComponent } from './control-input-generic/control-input-generic.component';
 import { ButtonSaveComponent } from './button-save/button-save.component';
+import {MatInputModule} from '@angular/material/input';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatSelectModule} from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
 
-const components = [HeaderComponent, AddButtonComponent,TitleComponent];
+const components = [HeaderComponent, AddButtonComponent,TitleComponent, ControlInputGenericComponent, ButtonSaveComponent];
 @NgModule({
-  declarations: [...components, ControlInputGenericComponent, ButtonSaveComponent],
+  declarations: [...components],
   imports: [
     CommonModule,
     MatNativeDateModule,
     MatIconModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatInputModule,
+    MatRadioModule,
+    MatSelectModule,
+    ReactiveFormsModule
   ],
   exports: [...components],
   schemas:[CUSTOM_ELEMENTS_SCHEMA]

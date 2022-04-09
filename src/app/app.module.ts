@@ -10,6 +10,11 @@ import { MatSliderModule } from '@angular/material/slider';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDialogModule} from '@angular/material/dialog';
 import { ToastrModule } from 'ngx-toastr';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -23,7 +28,12 @@ import { ToastrModule } from 'ngx-toastr';
     BrowserAnimationsModule,
     MatSliderModule,
     MatIconModule,
-    MatDialogModule
+    MatInputModule,
+    MatRadioModule,
+    MatSelectModule,
+    MatDialogModule,
+    HttpClientModule,
+    ReactiveFormsModule,
 
   ],
   providers: [],

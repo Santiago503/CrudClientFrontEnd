@@ -73,7 +73,13 @@ export class ControlInputGenericComponent implements OnInit {
   get fields() {  return this.formGroup;  }
 
   getKeydown(input, event:Event) {
-    if((input?.label?.toLowerCase().includes('telefono') || input?.label?.toLowerCase().includes('celular')) && input?.typeMethor?.includes('key')){
+    //input must be typeMethor  Key
+    if(
+      (input?.label?.toLowerCase().includes('telefono')
+      || input?.label?.toLowerCase().includes('cellphone')
+      || input?.label?.toLowerCase().includes('celular'))
+      && input?.typeMethor?.includes('key')){
+
       maskPhoneRD(event, input?.formControlName, this.fields);
     }else if(input?.label?.toLowerCase().includes('cedula') && input?.typeMethor?.includes('key')){
       maskCedula(event, input?.formControlName, this.fields)

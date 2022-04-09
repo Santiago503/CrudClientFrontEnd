@@ -1,0 +1,31 @@
+.pr{
+  margin: 2px;
+}
+
+:host ::ng-deep .ng-input {
+  padding-bottom: 10px;
+  padding-left: 7px;
+}
+
+
+:host ::ng-deep .ng-select .ng-select-container {
+  min-height: 51.5px;
+  margin-top: -3px;
+}
+
+:host ::ng-deep .mat-form-field {
+  padding: 0px;
+}
+
+/* Border Color */
+:host ::ng-deep .ng-select .ng-invalid.ng-touched .ng-select-container{
+  border-color: red;
+}
+/* Arrow Color */
+:host ::ng-deep .ng-select .ng-invalid.ng-touched .ng-arrow-wrapper .ng-arrow{
+  border-color: red transparent transparent
+}
+/* Placeholder Color */
+:host ::ng-deep .ng-select .ng-invalid.ng-touched .ng-select-container .ng-placeholder{
+  color: red;
+}

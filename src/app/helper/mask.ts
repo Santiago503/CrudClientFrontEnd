@@ -42,8 +42,8 @@ export function maskPhoneRD(event: any, field: string, fields: any = null) {
       setQuidon(this.fields, field, 3, keyCode, excludedKeys);
       // 809-000-
       setQuidonFromIndex(this.fields, field, 7, keyCode, excludedKeys, 4);
-  }else{
-    // Set 809-
+    }else{
+      // Set 809-
     setQuidon(fields, field, 3, keyCode, excludedKeys);
     // 809-000-
     setQuidonFromIndex(fields, field, 7, keyCode, excludedKeys, 4);
