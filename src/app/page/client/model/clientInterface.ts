@@ -5,14 +5,14 @@ export interface ClientI {
   ,lastname           :string
   ,gender             :string
   ,email              :string
-  ,status           :string
-  ,telefono           :string
+  ,status             :string
+  ,cellphone           :string
   ,localStorageOrApi  :boolean
-  ,address            :ClientAddressI[]
+  ,clientAddress       :ClientAddressI[]
 }
 
 export interface ClientAddressI {
-  clientId            :string
+  clientId            :any | number
   ,country            :string
   ,city               :string
   ,address            :string

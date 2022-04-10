@@ -11,7 +11,7 @@ import { HttpRequestService } from './../../../service/httpRequest/http-request.
 export class ClientService {
   public keyClient = "DataClient";
   public ListClient = [];
-  public typeStorage: 'LocalStorage' | 'API' = 'LocalStorage';
+  public typeStorage: 'LocalStorage' | 'API' = 'API';
   FormBuilder :FormGroup;
 
   constructor( private fb: FormBuilder,
@@ -19,14 +19,14 @@ export class ClientService {
                private localStorageServ: LocalstorageService) { }
 
   //true = LocalStorage, false = API Rest
-  getTypeStorage() {
+ get getTypeStorage() {
     if(this.typeStorage == 'LocalStorage') {
       return true;
     }
     return false;
   }
 
-  //#region FORM
+  //#region FORMCONTROL
   createFormBuilder() {
     this.FormBuilder = this.fb.group({
       id                  :[0]
@@ -37,12 +37,12 @@ export class ClientService {
       ,status             :['A',  Validators.required]
       ,cellphone           :['']
       ,localStorageOrApi  :[true]
-      ,address            :this.fb.array([this.createAddress()])
+      ,clientAddress            :this.fb.array([this.createAddress()])
     });
   }
 
   get getAddres() {
-    return this.FormBuilder.get("address") as FormArray;
+    return this.FormBuilder.get("clientAddress") as FormArray;
   }
 
   get Clients() {
@@ -51,7 +51,7 @@ export class ClientService {
 
   createAddress(address:ClientAddressI = null) {
     return this.fb.group({
-       clientId           :[address?.clientId || '']
+       clientId           :[address?.clientId || 0]
       ,country            :[address?.country ||'',  Validators.required]
       ,city               :[address?.city ||'',  Validators.required]
       ,address            :[address?.address ||'',  Validators.required]
@@ -70,7 +70,7 @@ export class ClientService {
 
     //else create
     data.id = uid(6);//create Id
-    data?.address?.forEach( x => {
+    data?.clientAddress?.forEach( x => {
       x.clientId = data.id; //id for addres FOREIGN KEY
     })
     let Client = [];
@@ -96,7 +96,7 @@ export class ClientService {
           if (ClientUpdatedata.id == Client[i].id) {
             Client.splice(i, 1);
             Client.push(ClientUpdatedata);
-            Client[i].address.forEach( x => {
+            Client[i].clientAddress.forEach( x => {
               x.clientId  = Client[i].id;
             });
             this.localStorageServ.setItem(this.keyClient, Client);
@@ -120,6 +120,10 @@ export class ClientService {
   //#region API REST
   getApiClient() {
     return this.reqServ.getRequest('client');
+  }
+
+  deleteApiClient(id: number) {
+    return this.reqServ.deleteRequest('client/'+id);
   }
 
   //#endregion

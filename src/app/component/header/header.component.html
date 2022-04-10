@@ -1,12 +1,16 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
+    <span>My Company </span>
 
-    <span>Control Client</span>
-    <span class="example-spacer"></span>
+
+    <span class="example-spacer">Hello World</span>
+
     <mat-icon
-      class="example-icon"
+      (click)="goTO()"
+      class="example-icon pointer"
       aria-hidden="false"
-      >perm_contact_calendar</mat-icon>
+      >perm_contact_calendar
+    </mat-icon>
 
   </mat-toolbar-row>
 </mat-toolbar>

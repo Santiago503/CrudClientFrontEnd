@@ -24,6 +24,7 @@ export class FormControlClientComponent implements OnInit, AfterViewChecked {
               private dialogServ: DialogService,
               private alert: AlertService,
               public clientServ: ClientService,
+              private reqServ: HttpRequestService,
               private readonly changeDetectorRef: ChangeDetectorRef) {
 
                 this.clientServ.createFormBuilder();
@@ -34,7 +35,6 @@ export class FormControlClientComponent implements OnInit, AfterViewChecked {
               }
 
   ngOnInit() {
-
     this.setDataInputs()
   }
 
@@ -48,17 +48,14 @@ export class FormControlClientComponent implements OnInit, AfterViewChecked {
     this.inputGenericData[7].data =  [{name: 'Local Storage', id: true }, {name: 'ASP NET CORE', id: false }];
   }
 
-
   patchValue(data :ClientI) {
     this.clientServ.FormBuilder.reset();
     this.clientServ.FormBuilder.patchValue( data );
-    console.log("~ data", data)
-    if(data?.address.length > 0)
-      this.patchValueForAddress(data.address);
+    if(data?.clientAddress?.length > 0)
+      this.patchValueForAddress(data.clientAddress);
   }
 
   patchValueForAddress(data :ClientAddressI[]) {
-    console.log("~ data", data)
     this.clientServ.getAddres.clear();
 
     data?.forEach((element: ClientAddressI) => {
@@ -92,12 +89,12 @@ export class FormControlClientComponent implements OnInit, AfterViewChecked {
 
       let data = this.clientServ.FormBuilder.value;
 
-      this.clientServ.FormBuilder.value.localStorageOrApi == true
+      this.clientServ.getTypeStorage == true
       ? this.saveLocalStorage(data)
       : this.saveApi(data);
   }
 
-  saveLocalStorage(data: any) {
+  saveLocalStorage(data: ClientI) {
     let resp = this.clientServ.saveClientLocalStorage(data);
 
     if(resp) {
@@ -107,20 +104,33 @@ export class FormControlClientComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  saveApi(data: any) {
-    // let req = this.clientServ.FormBuilder.value.id == 0
-    //           ? this.reqServ.postRequest('', this.clientServ.FormBuilder.value)
-    //           : this.reqServ.putRequest('', this.clientServ.FormBuilder.value);
-    //  req
-    // .subscribe(
-    //   resp => {
-    //     // this.alert.toartSuccess('','Transaccion Guardada Correctamente');
-    //     this.dialog.dialogClose();
-    //   },
-    //   error => {
-    //     // this.alert.toartError('','Ocurrio un error, ' + error.error);
-    //     console.log
-    //   });
+  setDataForApi(data: ClientI) {
+    data?.clientAddress?.forEach(
+      x => {
+        if(x.clientId == '' || x.clientId == null) {
+          x.clientId = 0;
+        }
+      }
+    )
+  }
+
+  saveApi(data: ClientI) {
+    this.setDataForApi(data);
+
+    let req = data?.id == 0
+              ? this.reqServ.postRequest('client', data)
+              : this.reqServ.putRequest('client', data);
+
+     req
+    .subscribe(
+      resp => {
+        this.alert.swalBasic('Good Job!','Saved Successfully','success');
+        this.dialogServ.dialogClose();
+      },
+      error => {
+         this.alert.swalBasic('An error occurred','Invalid data, please try again', 'error');
+          console.log
+      });
   }
 }
 

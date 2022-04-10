@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AlertService } from 'src/app/service/alert/alert.service';
 import { DialogService } from 'src/app/service/dialog/dialog.service';
 import { FormControlClientComponent } from './form-control-client/form-control-client.component';
 import { ClientI } from './model/clientInterface';
@@ -14,8 +15,7 @@ export class ClientComponent implements OnInit {
   column = ['nro.', 'id', 'name', 'lastname', 'cellphone','status','acciones'];
   searchKey = '';
   loading = false;
-  constructor( public clientServ: ClientService, private dialogServ: DialogService) {
-
+  constructor( public clientServ: ClientService, private dialogServ: DialogService, private alert: AlertService) {
   }
 
   ngOnInit(): void {
@@ -40,8 +40,18 @@ export class ClientComponent implements OnInit {
   }
 
   onDelete(data: ClientI) {
-    this.clientServ.deleteClientLocalStorage(data);
-    this.Client();
+    if(this.clientServ.getTypeStorage) {
+      this.clientServ.deleteClientLocalStorage(data);
+      this.Client();
+    }else{
+      this.clientServ
+      .deleteApiClient(data.id)
+      .subscribe(
+        resp => {
+          this.alert.swalBasic('Good Job!','Deleted Successfully','success');
+        });
+    }
+
   }
 
   onUpdate(data: any) {
