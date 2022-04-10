@@ -1,46 +1,54 @@
 
-<div class="d-flex flex-column justify-content-between" *ngIf="this.FormBuilder">
-<!-- Title -->
-<app-title [title]="clientTitle"></app-title>
+    <div class="d-flex flex-column justify-content-between" *ngIf="this.clientServ.FormBuilder">
+    <!-- Title -->
+    <app-title [title]="clientTitle"></app-title>
 
-<form  [formGroup]="this.FormBuilder" autocomplete="off">
-  <div>
-    <!-- Components Inputs -->
-      <app-control-input-generic
-          [formGroup]="this.FormBuilder"
-          [classMain]="'row'"
-          [inputGeneric]="inputGenericData">
-      </app-control-input-generic>
-  </div>
-</form>
-
-  <button type="button" class="btn btn-primary btn-sm mt-1 mb-1" (click)="addItem()">
-    <mat-icon>add</mat-icon>
-  </button>
-
-  <!-- formArrayName -->
-  <form [formGroup]="this.FormBuilder" autocomplete="off">
-          <div body>
-            <app-control-input-generic
-              [formGroup]="FormBuilder"
+    <form  [formGroup]="this.clientServ.FormBuilder" autocomplete="off">
+      <div>
+        <!-- Components Inputs -->
+          <app-control-input-generic
+              [formGroup]="this.clientServ.FormBuilder"
               [classMain]="'row'"
-              [subTitleformArrayName]="'Address'"
-              [inputGenericDataArray]="inputGenericDataClientAddress"
-              [formArrayName]="'address'"
-              [control]="this.getAddres" >
-            </app-control-input-generic>
-          </div>
-  </form>
+              [inputGeneric]="inputGenericData">
+          </app-control-input-generic>
+      </div>
+    </form>
 
-  <!-- button save -->
-  <div class="float-right text-right">
-    <app-button-save
-            [enable]="matDialogData?.formEnableOrdisable"
-            [name]="this.FormBuilder.value.id == 0 ? 'Save': 'Edit'"
-            (saveEvent)="save()">
-    </app-button-save>
+    <div class="btn-group p-0 mt-2" role="group">
+      <button type="button"  matTooltip="Add Address" class="btn btn-primary p-0" (click)="addItem()"
+              [disabled]="!matDialogData?.formEnableOrdisable">
+          <mat-icon>add</mat-icon>
+      </button>
 
-  </div>
+      <button type="button" class="btn btn-primary p-0" disabled></button>
 
+      <button type="button" matTooltip="Delete Address" class="btn btn-danger  p-0" (click)="deleteItem()"
+              [disabled]="!matDialogData?.formEnableOrdisable">
+        <mat-icon>delete_outline</mat-icon>
+      </button>
+    </div>
+
+    <!-- formArrayName -->
+    <form [formGroup]="this.clientServ.FormBuilder" autocomplete="off">
+            <div body>
+              <app-control-input-generic
+                [formGroup]="clientServ.FormBuilder"
+                [classMain]="'row'"
+                [subTitleformArrayName]="'Address'"
+                [inputGenericDataArray]="inputGenericDataClientAddress"
+                [formArrayName]="'address'"
+                [control]="this.clientServ.getAddres" >
+              </app-control-input-generic>
+            </div>
+    </form>
+
+    <!-- button save -->
+    <div class="d-flex justify-content-end">
+      <app-button-save
+              [enable]="matDialogData?.formEnableOrdisable"
+              [name]="this.clientServ.FormBuilder.value.id == 0 ? 'Save': 'Edit'"
+              (saveEvent)="save()">
+      </app-button-save>
+    </div>
 
 </div>

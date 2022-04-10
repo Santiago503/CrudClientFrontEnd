@@ -1,0 +1,73 @@
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 30%;
+  padding: 10px;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+:host ::ng-deep .table thead th {
+  z-index: 1 !important;
+}
+
+.example-container {
+  // max-height: 610px;
+  overflow: auto;
+}
+
+.mat-card {
+  padding: 6px !important;
+}
+
+.Title {
+  display: flex;
+  justify-content: space-between;
+  background-color: #2b354f !important;
+  color: white;
+}
+
+.mat-typography {
+  padding: 20px;
+}
+
+.example-container {
+  overflow: auto;
+}
+
+:host ::ng-deep .mat-dialog-content {
+  display: block;
+}
+
+:host ::ng-deep tr.mat-row,
+tr.mat-footer-row {
+  height: 20px;
+}
+
+.action {
+  vertical-align: baseline;
+}
+
+:host ::ng-deep mat-cell:first-of-type,
+mat-header-cell:first-of-type,
+mat-footer-cell:first-of-type {
+  padding-left: 0px;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-column-actions {
+  text-align: right;
+  text-transform: capitalize;
+}

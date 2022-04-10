@@ -1,1 +1,17 @@
-<p class="text-right">client works!</p>
+
+<prx-table-material
+    [listData]="this.clientServ.ListClient"
+    [displayedColumns]="column"
+    [title]="'List of Clients'"
+    [searchKey]="searchKey"
+    [seeAction]="true"
+    [canDelete]="true"
+    [canEdit]="true"
+    [canSearch]="true"
+    [canSee]="true"
+    [loading]="loading"
+    [pagination]="true"
+    (onSearch)="applyFilter($event)"
+    (onDelet)="onDelete($event)"
+    (onUpdateSee)="onUpdate($event)">
+</prx-table-material>

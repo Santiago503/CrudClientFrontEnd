@@ -1,39 +1,40 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import {  FormBuilder } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { InputGeneric } from 'src/app/component/control-input-generic/model/InputGeneric';
-import { EmailValidator, NameValidator } from 'src/app/helper/validate';
 import { AlertService } from 'src/app/service/alert/alert.service';
 import { DialogService } from 'src/app/service/dialog/dialog.service';
 import { HttpRequestService } from 'src/app/service/httpRequest/http-request.service';
 import { inputGenericDataClient } from './InputGenerer/InputforGenererClient';
 import { inputGenericDataClientAddress } from './InputGenerer/InputforGenererClientAddress';
+import { ClientService } from '../service/client.service';
+import { ClientAddressI, ClientI } from '../model/clientInterface';
+
 @Component({
   selector: 'app-form-control-client',
   templateUrl: './form-control-client.component.html',
   styleUrls: ['./form-control-client.component.css']
 })
 export class FormControlClientComponent implements OnInit, AfterViewChecked {
-
-
-  clientTitle = "Create Client1"
+  clientTitle = "Create Client"
   inputGenericData: InputGeneric[] = inputGenericDataClient;
   inputGenericDataClientAddress: InputGeneric[] = inputGenericDataClientAddress;
-  listGender = [{name: 'Male', id: 'M' }, {name: 'Female', id: 'F' }];
-  listStatus = [{name: 'Active', id: 'A' }, {name: 'Inactive', id: 'I' }];
 
-  constructor(private fb: FormBuilder,
-              @Inject(MAT_DIALOG_DATA) public matDialogData: any,
-              private dialog: DialogService,
+  constructor(@Inject(MAT_DIALOG_DATA) public matDialogData: any,
+              private dialogServ: DialogService,
               private alert: AlertService,
-              private reqServ: HttpRequestService,private readonly changeDetectorRef: ChangeDetectorRef) {
+              public clientServ: ClientService,
+              private readonly changeDetectorRef: ChangeDetectorRef) {
 
-                // matDialogData?.data ? this.FormBuilder.patchValue( matDialogData?.data ) : null;
-                // matDialogData?.formEnableOrdisable ? this.FormBuilder.enable() : this.FormBuilder.disable();
+                this.clientServ.createFormBuilder();
+
+                matDialogData?.data ? this.patchValue( matDialogData?.data ) : null;
+                matDialogData?.formEnableOrdisable ? this.clientServ.FormBuilder.enable() : this.clientServ.FormBuilder.disable();
 
               }
 
   ngOnInit() {
+
     this.setDataInputs()
   }
 
@@ -42,62 +43,84 @@ export class FormControlClientComponent implements OnInit, AfterViewChecked {
   }
 
   setDataInputs() {
-    this.inputGenericData[4].data = this.listGender;
-    this.inputGenericData[6].data = this.listStatus;
+    this.inputGenericData[4].data = [{name: 'Male', id: 'M' }, {name: 'Female', id: 'F' }];
+    this.inputGenericData[6].data = [{name: 'Active', id: 'A' }, {name: 'Inactive', id: 'I' }];
+    this.inputGenericData[7].data =  [{name: 'Local Storage', id: true }, {name: 'ASP NET CORE', id: false }];
   }
 
-  FormBuilder  = this.fb.group({
-    id                  :[0]
-    ,name               :['', [Validators.required, Validators.maxLength(50), NameValidator]]
-    ,lastname           :['', [Validators.required, Validators.maxLength(50), NameValidator]]
-    ,gender             :['', Validators.required]
-    ,email              :['', [Validators.required, EmailValidator]]
-    ,statusId           :['M',  Validators.required]
-    ,telefono           :['']
-    ,address            :this.fb.array([this.createAddress()])
-  });
 
-  createAddress(address:any = null) {
-    return this.fb.group({
-       clientId           :['']
-      ,country            :['']
-      ,city               :['']
-      ,address            :['']
+  patchValue(data :ClientI) {
+    this.clientServ.FormBuilder.reset();
+    this.clientServ.FormBuilder.patchValue( data );
+    console.log("~ data", data)
+    if(data?.address.length > 0)
+      this.patchValueForAddress(data.address);
+  }
+
+  patchValueForAddress(data :ClientAddressI[]) {
+    console.log("~ data", data)
+    this.clientServ.getAddres.clear();
+
+    data?.forEach((element: ClientAddressI) => {
+      this.addItem(element);
     });
   }
 
-  get getAddres() {
-    return this.FormBuilder.get("address") as FormArray;
+
+  addItem(address:any) {
+    this.clientServ.getAddres.push(this.clientServ.createAddress(address));
   }
 
-  addItem(address:any): void {
-    this.getAddres.push(this.createAddress(address));
+  deleteItem() {
+    if(this.clientServ.getAddres.length > 1){
+      this.clientServ.getAddres.removeAt(this.clientServ.getAddres.length -1);
+    }
   }
 
-  validateForm(): boolean{
+  validateForm(): boolean {
+    this.clientServ.FormBuilder.markAllAsTouched();
+    if(this.clientServ.FormBuilder.invalid) {
+      this.alert.swalBasic('Algo Ocurrio Mal!', 'Error Formulario Invalido, todos los campos en rojos son requeridos','error');
+      return false;
+    }
     return true;
   }
 
   save() {
-    console.log(this.FormBuilder.value)
-    var valid = this.validateForm();
-    if(!valid) { return; }
+      var valid = this.validateForm();
+      if(!valid) { return; }
 
-    return;
+      let data = this.clientServ.FormBuilder.value;
 
-    let req = this.FormBuilder.value.id == 0
-              ? this.reqServ.postRequest('', this.FormBuilder.value)
-              : this.reqServ.putRequest('', this.FormBuilder.value);
+      this.clientServ.FormBuilder.value.localStorageOrApi == true
+      ? this.saveLocalStorage(data)
+      : this.saveApi(data);
+  }
 
-     req
-    .subscribe(
-      resp => {
-        // this.alert.toartSuccess('','Transaccion Guardada Correctamente');
-        this.dialog.dialogClose();
-      },
-      error => {
-        // this.alert.toartError('','Ocurrio un error, ' + error.error);
-        console.log
-      });
+  saveLocalStorage(data: any) {
+    let resp = this.clientServ.saveClientLocalStorage(data);
+
+    if(resp) {
+      this.alert.swalBasic('Good Job!','Saved Successfully','success');
+      this.clientServ.ListClient = this.clientServ.Clients;
+      this.dialogServ.dialogClose();
+    }
+  }
+
+  saveApi(data: any) {
+    // let req = this.clientServ.FormBuilder.value.id == 0
+    //           ? this.reqServ.postRequest('', this.clientServ.FormBuilder.value)
+    //           : this.reqServ.putRequest('', this.clientServ.FormBuilder.value);
+    //  req
+    // .subscribe(
+    //   resp => {
+    //     // this.alert.toartSuccess('','Transaccion Guardada Correctamente');
+    //     this.dialog.dialogClose();
+    //   },
+    //   error => {
+    //     // this.alert.toartError('','Ocurrio un error, ' + error.error);
+    //     console.log
+    //   });
   }
 }
+

@@ -9,7 +9,7 @@ export class ButtonSaveComponent implements OnInit {
 
   @Input() enable: boolean;
   @Input() name: string;
-  @Input() class: string = 'btn btn-primary btn-lg btn-block';
+  @Input() class: string = 'btn btn-primary';
 
   @Output() saveEvent = new EventEmitter<MouseEvent>();
 

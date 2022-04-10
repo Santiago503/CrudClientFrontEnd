@@ -1,0 +1,88 @@
+<div class="col-md-12">
+  <mat-toolbar class="Title" mat-dialog-title *ngIf="title">
+    <span>{{ title }}</span>
+
+  </mat-toolbar>
+  <div class="mat-dialog-content example-container" *ngIf="!this.loading">
+    <table mat-table matSort matTableResponsive class="table table-sm" mat-table [dataSource]="this.listData">
+      <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns; let ic = index">
+        <th mat-header-cell *matHeaderCellDef class="text-capitalize">{{ column }}</th>
+        <td mat-cell *matCellDef="let element; let i = index" class="action">
+          <div *ngIf="column == 'acciones'" class="p-0 m-0">
+            <mat-cell>
+              <button
+                mat-icon-button
+                matTooltip="Edit"
+                *ngIf="canEdit"
+                (click)="onUpdate(element, true)"
+                style="color: orange">
+                <mat-icon>edit</mat-icon>
+              </button>
+
+              <button mat-icon-button matTooltip="Ver" *ngIf="canSee" (click)="onUpdate(element, false)">
+                <mat-icon>remove_red_eye</mat-icon>
+              </button>
+
+              <button
+                  mat-icon-button
+                  matTooltip="Delete"
+                  *ngIf="canDelete"
+                  (click)="onDelete(element)"
+                  style="color: red">
+                  <mat-icon>delete</mat-icon>
+              </button>
+
+              <button
+                mat-icon-button
+                [matTooltip]="otherMethorTitle.matTooltip"
+                *ngIf="canOtherMethor"
+                (click)="otherMeth(element)">
+                <mat-icon style="color: green">{{ otherMethorTitle.title }}</mat-icon>
+              </button>
+            </mat-cell>
+          </div>
+
+          <div>
+            <p
+              *ngIf="
+                column != 'acciones' &&
+                column != 'nro.' &&
+                column != 'status'">
+              {{ element[column] }}
+            </p>
+
+            <p *ngIf="column == 'nro.'">
+              {{ i + 1 }}
+            </p>
+
+            <p class="badge bg-success" *ngIf="(element[column] == true || element[column] == 'A') && column == 'status'">Active</p>
+            <p class="badge bg-danger" *ngIf="(element[column] == false || element[column] == 'I') && column == 'status'">Inactive</p>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="example-detail-row"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <mat-paginator
+        #paginator
+        [length]="totalRegistros"
+        [pageSize]="cantidadMostrar"
+        [pageIndex]="page"
+        [pageSizeOptions]="[5, 10, 15, 25, 100]"
+        (page)="onPage($event)"
+        [showFirstLastButtons]="true"
+        *ngIf="pagination">
+    </mat-paginator>
+  </div>
+
+  <mat-card
+    class="bg-info text-center text-white m-3"
+    *ngIf="this.loading && (!this.listData || this.listData == null || this.listData?.length == 0)">
+    There Aren't data for show
+  </mat-card>
+</div>
+
+<div class="row d-flex" style="justify-content: center">
+  <mat-spinner mode="indeterminate" *ngIf="this.loading && !this.listData"></mat-spinner>
+</div>

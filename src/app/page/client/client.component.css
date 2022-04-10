@@ -1,0 +1,99 @@
+table {
+  width: 100%;
+  border-top: 5px solid #2b354f;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 30%;
+  padding: 10px;
+}
+
+
+:host ::ng-deep .mRow :hover, tr:hover{
+    background: #efefef;
+}
+
+:host ::ng-deep .table th, .table td {
+  vertical-align: middle;
+  border-top: none;
+}
+
+:host ::ng-deep .table thead th {
+  vertical-align: middle;
+}
+
+:host ::ng-deep tr.mat-header-row {
+  vertical-align: middle;
+}
+
+:host ::ng-deep .table thead th {
+  z-index: 1 !important;
+}
+
+.example-containerTable {
+  height: auto;
+  max-height: 67vh;
+  overflow: auto;
+}
+
+.mat-card {
+  padding: 6px !important;
+}
+
+.Title {
+  display: flex;
+  justify-content: space-between;
+  background-color: #2b354f !important;
+  color: white;
+}
+
+:host ::ng-deep .mat-dialog-title {
+  margin: 0px;
+}
+
+
+.example-containerTable {
+  overflow: auto;
+}
+
+:host ::ng-deep .mat-dialog-contentTable {
+  display: block;
+}
+
+.action {
+  vertical-align: baseline;
+}
+
+:host ::ng-deep mat-cell:first-of-type,
+mat-header-cell:first-of-type,
+mat-footer-cell:first-of-type {
+  padding-left: 0px;
+}
+
+table {
+  width: 100%;
+  overflow: auto;
+  height: 70vh;
+}
+
+.mat-elevation-z8 {
+  overflow: auto;
+  height: 70vh;
+}
+
+.mat-column-actions {
+  text-align: right;
+  text-transform: capitalize;
+}
+
+.Title {
+  display: flex;
+  justify-content: space-between;
+  background-color: #2b354f !important;
+  color: white;
+}
+
+.mat-form-field {
+  width: 90%;
+}

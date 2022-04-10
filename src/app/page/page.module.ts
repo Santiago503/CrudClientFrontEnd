@@ -8,8 +8,7 @@ import { ClientComponent } from './client/client.component';
 import { FormControlClientComponent } from './client/form-control-client/form-control-client.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { MatIconModule } from '@angular/material/icon';
-
+import { MaterialModule } from '../material/material.module';
 @NgModule({
   declarations: [HomeComponent, ClientComponent, FormControlClientComponent],
   imports: [
@@ -19,8 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    MatIconModule
-
+    MaterialModule
   ],
   schemas:[CUSTOM_ELEMENTS_SCHEMA]
 

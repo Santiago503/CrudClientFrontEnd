@@ -18,7 +18,7 @@ export const inputGenericDataClientAddress: InputGeneric[] = [
     onlyUpperCase: false, //all word in UpperCase
     maxLength: 50,
     data : null,
-    required: true },
+    required: false },
 
   { label: "City",//
     class: "col-md-2 col-sm-4",
@@ -29,7 +29,7 @@ export const inputGenericDataClientAddress: InputGeneric[] = [
     onlyUpperCase: false,
     maxLength: 50,
     data : null,
-    required: true },
+    required: false },
 
   { label: "Address",//
     class: "col-md-6 col-sm-4",
@@ -41,5 +41,5 @@ export const inputGenericDataClientAddress: InputGeneric[] = [
     onlyUpperCase: false,
     maxLength: 160,
     data : null,
-    required: true },
+    required: false },
 ];
