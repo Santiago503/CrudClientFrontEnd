@@ -14,9 +14,9 @@ This a the App for control of Client, have two way of save data, with LocalStora
     npm serve
     
 ### Libraries and Framework
-  Angular 10
-  Angular Material
-  Bootstrap 5
+    Angular 10
+    Angular Material
+    Bootstrap 5
 
 
 
