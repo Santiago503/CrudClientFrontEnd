@@ -7,13 +7,15 @@ export class LocalstorageService {
 
 
   getItem(key: string) {
-    return localStorage.getItem(key) ? JSON.parse( localStorage.getItem(key)) : [];
+    let value = localStorage.getItem(key);
+    return value ? JSON.parse(value) : [];
   }
 
   setItem(key: string, value: string | any) {
 
     if (typeof value === "string") {
-      localStorage.setItem(key, value);
+      let newValue = { value }
+      localStorage.setItem(key, JSON.stringify(newValue));
       return this.getItem(key);
     }
 

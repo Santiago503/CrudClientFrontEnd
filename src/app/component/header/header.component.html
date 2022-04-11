@@ -1,16 +1,22 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <span>My Company </span>
-
-
-    <span class="example-spacer">Hello World</span>
-
+    <div  class="example-spacer">
+      <span>My Company "Hello World"</span>
+    </div>
     <mat-icon
       (click)="goTO()"
-      class="example-icon pointer"
-      aria-hidden="false"
-      >perm_contact_calendar
+      class="example-icon pointer mr-2"
+      aria-hidden="false">
+      perm_contact_calendar
     </mat-icon>
+
+    <mat-form-field  class="col-md-3 " matTooltip="Select DataSource">
+      <mat-label  class="text-capitalize" ></mat-label>
+      <mat-select  [(ngModel)]="this.ClientServ.typeStorage" (selectionChange)="getChange($event)">
+          <mat-option value="API">DATA FROM API ASP NET CORE</mat-option>
+          <mat-option value="LocalStorage">DATA FROM LOCALSTORAGE</mat-option>
+      </mat-select>
+    </mat-form-field>
 
   </mat-toolbar-row>
 </mat-toolbar>

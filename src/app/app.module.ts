@@ -7,7 +7,7 @@ import { PageModule } from './page/page.module';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material/material.module';
 
 @NgModule({
@@ -21,6 +21,7 @@ import { MaterialModule } from './material/material.module';
     ComponentModule,
     BrowserAnimationsModule,
     MaterialModule,
+    FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
 

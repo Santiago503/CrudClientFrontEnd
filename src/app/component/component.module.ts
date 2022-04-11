@@ -6,7 +6,7 @@ import { AddButtonComponent } from './add-button/add-button.component';
 import { TitleComponent } from './title/title.component';
 import { ControlInputGenericComponent } from './control-input-generic/control-input-generic.component';
 import { ButtonSaveComponent } from './button-save/button-save.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TableMaterialComponent } from './table-material/table-material.component';
 import { MaterialModule } from '../material/material.module';
 
@@ -18,6 +18,7 @@ const components = [HeaderComponent, AddButtonComponent,
   imports: [
     CommonModule,
     MaterialModule,
+    FormsModule,
     ReactiveFormsModule
   ],
   exports: [...components],

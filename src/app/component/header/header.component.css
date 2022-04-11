@@ -8,3 +8,13 @@
 .pointer {
   cursor: pointer;
 }
+
+.mat-form-field {
+  font-size: 14px;
+  padding: 10px;
+}
+
+
+.mr-2 {
+  margin-right: 0.9rem;
+}

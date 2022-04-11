@@ -12,6 +12,7 @@ export class ClientService {
   public keyClient = "DataClient";
   public ListClient = [];
   public typeStorage: 'LocalStorage' | 'API' = 'API';
+  public loading = false;
   FormBuilder :FormGroup;
 
   constructor( private fb: FormBuilder,

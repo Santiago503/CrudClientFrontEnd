@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { AlertService } from 'src/app/service/alert/alert.service';
 import { DialogService } from 'src/app/service/dialog/dialog.service';
 import { FormControlClientComponent } from './form-control-client/form-control-client.component';
@@ -15,25 +15,19 @@ export class ClientComponent implements OnInit {
   column = ['nro.', 'id', 'name', 'lastname', 'cellphone','status','acciones'];
   searchKey = '';
   loading = false;
+  @Output() getClient = new EventEmitter<boolean>();
   constructor( public clientServ: ClientService, private dialogServ: DialogService, private alert: AlertService) {
   }
 
   ngOnInit(): void {
-    this.Client();
+    this.getListClient();
   }
 
-  Client() {
-    if(this.clientServ.getTypeStorage)
-      this.clientServ.ListClient = this.clientServ.Clients;
-    else{
-      this.clientServ
-      .getApiClient()
-      .subscribe(
-        resp => {
-          this.clientServ.ListClient = resp;
-        });
-    }
+
+  getListClient() {
+    this.getClient.emit(true);
   }
+
 
   applyFilter(event) {
     console.log("~ event", event)
@@ -42,7 +36,7 @@ export class ClientComponent implements OnInit {
   onDelete(data: ClientI) {
     if(this.clientServ.getTypeStorage) {
       this.clientServ.deleteClientLocalStorage(data);
-      this.Client();
+      this.getListClient();
     }else{
       this.clientServ
       .deleteApiClient(data.id)
@@ -55,7 +49,12 @@ export class ClientComponent implements OnInit {
   }
 
   onUpdate(data: any) {
-    this.dialogServ.onCreateDialog(FormControlClientComponent, '100', '60', data.canEditOrSee, data, false, true, '900px', 'right');
+    let dg = this.dialogServ.onCreateDialog(FormControlClientComponent, '100', '60', data.canEditOrSee, data, false, true, '900px', 'right');
+
+    dg.afterClosed().subscribe((resp) => {
+       this.getListClient();
+    });
+
   }
 
 }

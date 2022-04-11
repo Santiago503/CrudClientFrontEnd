@@ -76,13 +76,12 @@
     </mat-paginator>
   </div>
 
-  <mat-card
-    class="bg-info text-center text-white m-3"
-    *ngIf="this.loading && (!this.listData || this.listData == null || this.listData?.length == 0)">
+  <mat-card class="bg-info text-center text-white m-3"
+    *ngIf="!this.loading && (!this.listData || this.listData == null || this.listData?.length == 0)">
     There Aren't data for show
   </mat-card>
 </div>
 
 <div class="row d-flex" style="justify-content: center">
-  <mat-spinner mode="indeterminate" *ngIf="this.loading && !this.listData"></mat-spinner>
+  <mat-spinner mode="indeterminate" *ngIf="this.loading && (!this.listData || this.listData == null || this.listData?.length == 0)"></mat-spinner>
 </div>

@@ -9,7 +9,7 @@
     [canEdit]="true"
     [canSearch]="true"
     [canSee]="true"
-    [loading]="loading"
+    [loading]="clientServ.loading"
     (onSearch)="applyFilter($event)"
     (onDelet)="onDelete($event)"
     (onUpdateSee)="onUpdate($event)">
